@@ -124,20 +124,20 @@ Lista inserirContato(Lista *li, struct contato c){
   fflush(stdin);
   while (contato.nome == ""){
       printf("Nome vazio. Digite novamente.");
-      scanf("%[^\n]s", c.nome);
+      scanf("%[^\n]s", elemento->nome);
       fflush(stdin);
   }
   printf("Digite o telefone do contato: ");
-  scanf("%[^\n]s", c.telefone);
+  scanf("%[^\n]s", elemento->telefone);
 
   printf("Digite o endereco do contato: ");
-  scanf("%[^\n]s", c.endereco);
+  scanf("%[^\n]s", elemento->endereco);
 
   printf("Digite o CEP do contato: ");
-  scanf("%[^\n]s", c.cep);
+  scanf("%[^\n]s", elemento->cep);
 
   printf("Digite a data de nascimento do contato: ");
-  scanf("%[^\n]s", c.endereco);]
+  scanf("%[^\n]s", elemento->dataNascimento);]
 
   return *li;
 }
