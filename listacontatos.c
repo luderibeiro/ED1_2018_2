@@ -22,11 +22,11 @@ struct elemento{
   struct elemento *prox;
 };
 
-//typedef struct elemento Element;
+typedef struct elemento Element;
 
-/*Lista* criar_lista();
+Lista* criar_lista();
 void liberar_lista(Lista* li);
-int tamanho_lista(Lista* li);*/
+int tamanho_lista(Lista* li);
 
 int main(){
 
@@ -115,12 +115,12 @@ int tamanho_lista(Lista* li){
   return count;
 }
 
-inserirContato(Lista *li, struct contato c){
+Lista inserirContato(Lista *li, struct contato c){
   Lista *novo;
-  novo = (Lista *) malloc(*sizeof(1*sizeof(Lista));
+  novo = (Lista *) calloc(1*sizeof(Lista));
+
   printf("Digite o nome completo do contato: ");
-  scanf("%[^\n]s", elemento.nome);
-  gets()
+  scanf("%[^\n]s", elemento->nome);
   fflush(stdin);
   while (contato.nome == ""){
       printf("Nome vazio. Digite novamente.");
@@ -137,10 +137,15 @@ inserirContato(Lista *li, struct contato c){
   scanf("%[^\n]s", c.cep);
 
   printf("Digite a data de nascimento do contato: ");
-  scanf("%[^\n]s", c.endereco);
+  scanf("%[^\n]s", c.endereco);]
+
+  return *li;
 }
 
-removerContato(){
+
+
+removerContato(Lista *li, ){
+
 
 }
 
