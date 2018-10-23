@@ -10,7 +10,7 @@ struct contato{
   char telefone[10];
   char endereco[101];
   int cep;
-  char dataNascimento;
+  char dataNascimento[11];
 };
 
 
@@ -18,7 +18,7 @@ typedef struct elemento* Lista;
 
 struct elemento{
   struct elemento *ant;
-  struct elemento dados;
+  struct contato dados;
   struct elemento *prox;
 };
 
@@ -31,7 +31,7 @@ int tamanho_lista(Lista* li);
 int main(){
 
   char opcao;
-  li = criar_lista();
+  Lista *li = criar_lista();
   //liberar_lista(li);
   //int x = tamanho_lista(li);
   do{
@@ -76,17 +76,17 @@ Lista* criar_lista(){
     return li;
   }
   while(!feof(fp)){
-    li = (LISTA *) malloc(1*sizeof(LISTA));
+    li = (Lista *) malloc(1*sizeof(Lista));
     fread(&li->dados, sizeof(contato), 1, fp);
     li->prox = NULL;
-    if(primeiro == NULL){
+    /*if(primeiro == NULL){
       primeiro = li;
       ultimo = primeiro;
     }else{
       ultimo->prox = li;
       //ultimo->ant = ;
       ultimo = li;
-    }
+    }*/
   }
   return li;
 }
@@ -106,7 +106,7 @@ int tamanho_lista(Lista* li){
     return 0;
   }
   int count = 0;
-  Elem* no = *li;
+  Element* no = *li;
 
   while (no != NULL) {
     count++;
@@ -144,10 +144,8 @@ Lista inserirContato(Lista *li, struct contato c){
 
 
 
-removerContato(Lista *li, ){
-
-
-}
+//removerContato(Lista *li, ){
+//}
 
 char menu(){
   char opcao;
