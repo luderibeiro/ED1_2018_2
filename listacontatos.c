@@ -5,24 +5,21 @@
 
 char menu();
 
-struct contato{
+typedef struct elemento{
   char nome[101];
   char telefone[10];
   char endereco[101];
   int cep;
   char dataNascimento[11];
-};
+}Contato;
 
-
-typedef struct elemento* Lista;
-
-struct elemento{
+typedef struct Elemento{
   struct elemento *ant;
-  struct contato dados;
+  struct Contato *dados;
   struct elemento *prox;
 };
 
-typedef struct elemento Element;
+typedef struct Elemento* Lista;
 
 Lista* criar_lista();
 void liberar_lista(Lista* li);
@@ -66,30 +63,31 @@ int main(){
 
 Lista* criar_lista(){
   FILE *fp;
-  Lista* li = (Lista *)malloc(sizeof(Lista));
-  if(li != NULL){
-    *li = NULL; // Conteudo de "li" aponta pra NULL
+  Lista* l = (Lista *)malloc(sizeof(Lista));
+  if(l != NULL){
+    *l = NULL; // Conteudo de "li" aponta pra NULL
   }
   fp = fopen("contatos.txt", "r+");
   if(fp == NULL){
     printf("arquivo contatos.txt inxistente. Novo arquivo criado.");
-    return li;
+    return l;
   }
-  while(!feof(fp)){
+  /*while(!feof(fp)){
     li = (Lista *) malloc(1*sizeof(Lista));
     fread(&li->dados, sizeof(contato), 1, fp);
     li->prox = NULL;
-    /*if(primeiro == NULL){
+    if(primeiro == NULL){
       primeiro = li;
       ultimo = primeiro;
     }else{
       ultimo->prox = li;
       //ultimo->ant = ;
       ultimo = li;
-    }*/
-  }
-  return li;
+    }
+  }*/
+  return l;
 }
+/*
 void liberar_lista(Lista* li){
   if(li != NULL){
     Element* no;
@@ -100,7 +98,9 @@ void liberar_lista(Lista* li){
     }
     free(li);
   }
-}
+}*/
+
+/*
 int tamanho_lista(Lista* li){
   if(li == NULL){
     return 0;
@@ -114,11 +114,12 @@ int tamanho_lista(Lista* li){
   }
   return count;
 }
-
-Lista inserirContato(Lista *li, struct contato c){
+*/
+Lista inserirContato(Lista *li, struct Contato c){
   Lista *novo;
   novo = (Lista *) calloc(1*sizeof(Lista));
 
+  system("clear");
   printf("Digite o nome completo do contato: ");
   scanf("%[^\n]s", elemento->nome);
   fflush(stdin);
