@@ -61,7 +61,7 @@ void preencheFila(int numeroVoos, int numeroAproximacoes, int numeroDecolagens, 
 	for(i = 0; i < numeroAproximacoes; i++){
 
 		voo[i].modoVoo = 'A';
-		voo[i].combustivel = 0; // Gerando valores aleatórios de combustivel de 0 a 12 para o modo de voo "A".
+		voo[i].combustivel = rand()%13; // Gerando valores aleatórios de combustivel de 0 a 12 para o modo de voo "A".
 
 	}
 
