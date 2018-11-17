@@ -14,18 +14,18 @@ typedef struct nod{
 	struct nod *direita;
 }No;
 
-int menu(int opcao);
-void loadTreeFromFile();
-void showTree();
-void isFull();
-void searchValue();
-void getHeight();
-void removeValue();
-void printInOrder();
-void printPreOrder();
-void printPostOrder();
-void balanceTree();
-void liberaArvore();
+// int menu(int opcao);
+// void loadTreeFromFile();
+// void showTree();
+// void isFull();
+// void searchValue();
+// void getHeight();
+// void removeValue();
+// void printInOrder();
+// void printPreOrder();
+// void printPostOrder();
+// void balanceTree();
+// void liberaArvore();
 
 
 

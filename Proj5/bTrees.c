@@ -1,7 +1,3 @@
-int menu(int opcao){
-	return opcao;
-}
-
 void loadTreeFromFile(){
 
 }
