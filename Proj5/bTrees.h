@@ -1,4 +1,3 @@
-int menu(int opcao);
 void loadTreeFromFile();
 void showTree();
 void isFull();

@@ -4,12 +4,12 @@
 
 FILE *arq;
 
-typedef struct 	conteudo{
+typedef struct 	elemento{
 	int numero;
-}Conteudo;
+}Elemento;
 
 typedef struct nod{
-	Conteudo n;
+	Elemento e;
 	struct nod *esquerda;
 	struct nod *direita;
 }No;
