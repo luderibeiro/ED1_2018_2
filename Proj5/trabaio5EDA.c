@@ -2,7 +2,32 @@
 #include <stdlib.h>
 //#include "bTrees.h"
 
+FILE *arq;
+
+typedef struct 	conteudo{
+	int numero;
+}Conteudo;
+
+typedef struct nod{
+	Conteudo n;
+	struct nod *esquerda;
+	struct nod *direita;
+}No;
+
 int menu(int opcao);
+void loadTreeFromFile();
+void showTree();
+void isFull();
+void searchValue();
+void getHeight();
+void removeValue();
+void printInOrder();
+void printPreOrder();
+void printPostOrder();
+void balanceTree();
+void liberaArvore();
+
+
 
 int main(int argc, char const *argv[]) {
 
@@ -14,47 +39,47 @@ int main(int argc, char const *argv[]) {
 		printf("Opcao escolhida: %d\n", opcao);
 		switch (opcao) {
 			case 1:
-			//
+			//loadTreeFromFile();
 			break;
 
 			case 2:
-			//
+			//showTree();
 			break;
 
 			case 3:
-			//
+			//isFull();
 			break;
 
 			case 4:
-			//
+			//searchValue();
 			break;
 
 			case 5:
-			//
+			//getHeight();
 			break;
 
 			case 6:
-			//
+			//removeValue();
 			break;
 
 			case 7:
-			//
+			//printInOrder();
 			break;
 
 			case 8:
-			//
+			//printPreOrder();
 			break;
 
 			case 9:
-			//
+			//printPostOrder();
 			break;
 
 			case 10:
-			//
+			//balanceTree();
 			break;
 
 			case 0:
-			//
+			//liberaArvore();
 			break;
 
 			default:
