@@ -42,3 +42,4 @@ int main () {
 	int numero2;
 	criarArvore();
 	insercao();
+}

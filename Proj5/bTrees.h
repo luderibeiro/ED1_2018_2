@@ -1,3 +1,5 @@
+void criarArvore();
+void insercao();
 void loadTreeFromFile();
 void showTree();
 void isFull();
