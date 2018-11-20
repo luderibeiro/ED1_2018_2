@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 typedef struct No
 {
@@ -22,10 +23,10 @@ No* loadTreeFromFile(No* pRaiz, int *vetor){
 	if(nomeArquivo[strlen(nomeArquivo)-1] == '\n'){
 		nomeArquivo[strlen(nomeArquivo)-1] = '\0';
 	}
-	printf("Aloo %s\n", nomeArquivo);
+	printf("%s\n\n", nomeArquivo);
 	No* n = (No *)malloc(sizeof(No));
 	if(n != NULL){
-		n = NULL; // Conteudo de "li" aponta pra NULL
+		n = NULL;
 	}
 	char path[16] = "./BSTs/\0";
 	strcat(path, nomeArquivo);
@@ -38,34 +39,32 @@ No* loadTreeFromFile(No* pRaiz, int *vetor){
 		printf("%d\n", valor);
 		vetor[i] = valor;
 		i++;
-		//pRaiz = insercao(pRaiz, vetor[i]);
-		//pRaiz = insercao(pRaiz, valor);
-
-		}
+	}
 	fclose(fp);
 	return n;
 }
 
 int menu(int opcao){
-		printf("**********************************\n");
-		printf("************   MENU   ************\n");
-		printf("**********************************\n");
-		printf("Escolha a sua opcao --------------\n");
-		printf("1- Carregar pRaiz. --------------\n");
-		printf("2- Mostrar pRaiz. ---------------\n");
-		printf("3- Verficar pRaiz cheia. --------\n");
-		printf("4- Procurar valor. ---------------\n");
-		printf("5- Altura da pRaiz --------------\n");
-		printf("6- Remover Valor. ----------------\n");
-		printf("7- Print in Order. ---------------\n");
-		printf("8- Print pre Order. --------------\n");
-		printf("9- Print post Order. -------------\n");
-		printf("10- Balancear pRaiz. ------------\n");
-		printf("0- Sair.--------------------------\n");
-		printf("----------------------------------\n");
-		printf("Digite a opcao desejada: ");
-		scanf("%d", &opcao);
-		return opcao;
+	printf("\n");
+	printf("**********************************\n");
+	printf("************   MENU   ************\n");
+	printf("**********************************\n");
+	printf("Escolha a sua opcao --------------\n");
+	printf("1- Carregar arvore. --------------\n");
+	printf("2- Mostrar arvore. ---------------\n");
+	printf("3- Verificar arvore cheia. --------\n");
+	printf("4- Procurar valor. ---------------\n");
+	printf("5- Altura da arvore --------------\n");
+	printf("6- Remover Valor. ----------------\n");
+	printf("7- Print in Order. ---------------\n");
+	printf("8- Print pre Order. --------------\n");
+	printf("9- Print post Order. -------------\n");
+	printf("10- Balancear arvore. ------------\n");
+	printf("0- Sair.--------------------------\n");
+	printf("----------------------------------\n\n");
+	printf("Digite a opcao desejada: ");
+	scanf("%d", &opcao);
+	return opcao;
 }
 
 void criarArvore(No *pRaiz)
@@ -73,74 +72,43 @@ void criarArvore(No *pRaiz)
 	pRaiz = NULL;
 }
 
-No* insercao(No *pRaiz,int valor){
-  No *novo = (No*)malloc(sizeof(No));
-  No *aux = pRaiz;
-  No *ant;
-  novo->numero = valor;
-  novo->esquerda = NULL;
-  novo->direita = NULL;
-  if(pRaiz == NULL){
-    pRaiz = novo;
-    return novo;
-  }
-  else{
-    while(aux != NULL){
-      ant = aux;
-      if(valor > aux->numero){
-        aux = aux->direita;
-      }
-      else{
-        aux = aux->esquerda;
-      }
-    }
-    if(valor > ant->numero){
-      ant->direita = novo;
-    }
-    else{
-      ant->esquerda = novo;
-    }
-  }
-  return pRaiz;
+No* insercao(No *pRaiz, int numero) {
+	No *novo, *aux, *anterior;
+	novo=(No*)malloc(sizeof (No));
+	novo->esquerda=NULL;
+	novo->direita=NULL;
+	novo->numero=numero;
+	if (pRaiz == NULL)
+	{
+		pRaiz = novo;
+		return novo;
+	}
+	else
+	{
+		aux = pRaiz;
+		while(aux != NULL){
+			anterior = aux;
+			if (numero < (aux->numero))
+			{
+				aux = aux->esquerda;
+			}
+			else
+			{
+				aux = aux->direita;
+			}
+		}
+		if (numero < (anterior->numero))
+		{
+			anterior->esquerda = novo;
+		}
+		else
+		{
+			anterior->direita = novo;
+		}
+	}
+	return pRaiz;
 }
 
-// No* insercao(No *pRaiz, int numero2)
-// {
-// 	No *novo, *aux, *anterior;
-// 	novo=(No*)malloc(sizeof (No));
-// 	novo->esquerda=NULL;
-// 	novo->direita=NULL;
-// 	novo->numero=numero2;
-// 	if (pRaiz == NULL)
-// 	{
-// 		pRaiz = novo;
-// 		return novo;
-// 	}
-// 	else
-// 	{
-// 		aux = pRaiz;
-// 		while(aux != NULL){
-// 			anterior = aux;
-// 			if (numero2 < (aux->numero))
-// 			{
-// 				aux = aux->esquerda;
-// 			}
-// 			else
-// 			{
-// 				aux = aux->direita;
-// 			}
-// 		}
-// 		if (numero2 < (anterior->numero))
-// 		{
-// 			anterior->esquerda = novo;
-// 		}
-// 		else
-// 		{
-// 			anterior->direita = novo;
-// 		}
-// 	}
-// 	return pRaiz;
-// }
 void printInOrder(No *pRaiz){
 	if(pRaiz != NULL){
 		printInOrder(pRaiz->esquerda);
@@ -168,13 +136,14 @@ int contarNos(No *pRaiz){
 	else
 	return 1 + contarNos(pRaiz->esquerda) + contarNos(pRaiz->direita);
 }
-int contarFolhas(No *pRaiz){
-	if(pRaiz == NULL)
-	return 0;
-	if(pRaiz->esquerda == NULL && pRaiz->direita == NULL)
-	return 1;
-	return contarFolhas(pRaiz->esquerda) + contarFolhas(pRaiz->direita);
-}
+
+// int contarFolhas(No *pRaiz){
+//  if(pRaiz == NULL)
+//  return 0;
+//  if(pRaiz->esquerda == NULL && pRaiz->direita == NULL)
+//  return 1;
+//  return contarFolhas(pRaiz->esquerda) + contarFolhas(pRaiz->direita);
+// }
 int maior(int a, int b){
 	if(a > b)
 	return a;
@@ -184,11 +153,71 @@ int maior(int a, int b){
 
 
 
-int altura(No *pRaiz){
+int getHeight(No *pRaiz){
 	if((pRaiz == NULL) || (pRaiz->esquerda == NULL && pRaiz->direita == NULL))
 	return 0;
 	else
-	return 1 + maior(altura(pRaiz->esquerda), altura(pRaiz->direita));
+	return 1 + maior(getHeight(pRaiz->esquerda), getHeight(pRaiz->direita));
+}
+void isFull(No* pRaiz) {
+	int h = getHeight(pRaiz) + 1, count = contarNos(pRaiz);
+	int maximo = pow(2, h) - 1;
+	if (maximo != count){
+		printf("A arvore não é cheia!\n");
+	}else {
+		printf("A árvore é cheia!\n");
+	}
+}
+
+No* freeArvore(No* pRaiz) {
+	if(pRaiz != NULL){
+		pRaiz = freeArvore(pRaiz->esquerda);
+		pRaiz = freeArvore(pRaiz->direita);
+		free(pRaiz);
+	}
+}
+No* searchValue(No* pRaiz) {
+	int valor;
+	No *ant = NULL, *aux = pRaiz;
+
+	printf("Digite um valor desejado: \n");
+	scanf("%d\n", &valor);
+
+	if(pRaiz == NULL){
+		printf("Arvore nao carregada.\n");
+	}
+	else{
+		while(aux != NULL){
+			ant = aux;
+			if (valor == aux->numero){
+				printf("O valor dele eh: %d\n",aux->numero);
+				if (ant == NULL){
+					printf("Ele eh a raiz.\n");
+				} else{
+					printf("Seu pai eh: %d\n",ant->numero);
+				}
+				return aux;
+			}
+			else if(valor > aux->numero){
+				aux = aux->direita;
+			}
+			else{
+				aux = aux->esquerda;
+			}
+		}
+	}
+	return aux;
+}
+
+void showTree(No *pRaiz, int nivel){
+     int i;
+     if(pRaiz == NULL)
+        return;
+     showTree(pRaiz->direita, nivel+1);
+     for(i=0; i < nivel; i++)
+        printf("      ");
+     printf("%6d\n\n", pRaiz->numero);
+     showTree(pRaiz->esquerda, nivel+1);
 }
 
 
@@ -197,19 +226,16 @@ int main () {
 	No *pRaiz = NULL;
 	int numero2, vetor[10];
 	criarArvore(pRaiz);
-	//insercao(pRaiz,2);
-	///insercao(pRaiz,4);
-	//insercao(pRaiz,1);
-	//printInOrder(pRaiz);
-	printf("Rodou!\n");
 
-	int opcao;
+	int opcao, h;
+	No *aqueleCara;
 	do {
 
 		opcao = menu(opcao);
 		system("clear");
 		switch (opcao) {
 			case 1:
+			pRaiz = freeArvore(pRaiz);
 			pRaiz = loadTreeFromFile(pRaiz, vetor);
 			for(int i = 0; i < 10; i++){
 				pRaiz = insercao(pRaiz, vetor[i]);
@@ -217,19 +243,29 @@ int main () {
 			break;
 
 			case 2:
-			//showTree();
+			showTree(pRaiz, 0);
+			printf("Pressione ENTER para continuar\n");
+			getchar(); getchar();
 			break;
 
 			case 3:
-			//isFull();
+			//int count = contarNos(pRaiz);
+			printf("%d\n", contarNos(pRaiz));
+			isFull(pRaiz);
+			printf("Pressione ENTER para continuar\n");
+			getchar(); getchar();
 			break;
 
 			case 4:
-			//searchValue();
+			aqueleCara = searchValue(pRaiz);
 			break;
 
 			case 5:
-			//getHeight();
+			h = getHeight(pRaiz);
+			h++;
+			printf("A altura é %d\n", h);
+			printf("Pressione ENTER para continuar\n");
+			getchar(); getchar();
 			break;
 
 			case 6:
@@ -237,18 +273,21 @@ int main () {
 			break;
 
 			case 7:
-			// pRaiz = insercao(pRaiz, 100);
-			// pRaiz = insercao(pRaiz, 20);
-			// pRaiz = insercao(pRaiz, 120);
 			printInOrder(pRaiz);
+			printf("Pressione ENTER para continuar\n");
+			getchar(); getchar();
 			break;
 
 			case 8:
 			printPreOrder(pRaiz);
+			printf("Pressione ENTER para continuar\n");
+			getchar(); getchar();
 			break;
 
 			case 9:
 			printPostOrder(pRaiz);
+			printf("Pressione ENTER para continuar\n");
+			getchar(); getchar();
 			break;
 
 			case 10:
@@ -260,8 +299,9 @@ int main () {
 			break;
 
 			default:
-			printf("Escolha invalida, digite novamente: ");
-			scanf("%d", &opcao);
+			printf("Escolha invalida \n");
+			printf("Pressione ENTER para continuar\n");
+			getchar(); getchar();
 			break;
 		}
 	}while (opcao != 0);
