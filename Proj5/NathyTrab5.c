@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <stdio_ext.h>
 
 typedef struct No
 {
@@ -23,7 +24,6 @@ No* loadTreeFromFile(No* pRaiz, int *vetor){
 	if(nomeArquivo[strlen(nomeArquivo)-1] == '\n'){
 		nomeArquivo[strlen(nomeArquivo)-1] = '\0';
 	}
-	printf("%s\n\n", nomeArquivo);
 	No* n = (No *)malloc(sizeof(No));
 	if(n != NULL){
 		n = NULL;
@@ -36,7 +36,6 @@ No* loadTreeFromFile(No* pRaiz, int *vetor){
 		return n;
 	}
 	while(fscanf(fp, "%d ", &valor) != EOF){
-		printf("%d\n", valor);
 		vetor[i] = valor;
 		i++;
 	}
@@ -249,7 +248,6 @@ int main () {
 			break;
 
 			case 3:
-			//int count = contarNos(pRaiz);
 			printf("%d\n", contarNos(pRaiz));
 			isFull(pRaiz);
 			printf("Pressione ENTER para continuar\n");
