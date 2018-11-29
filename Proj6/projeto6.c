@@ -23,11 +23,25 @@ double valorIntermediario (NEURONIO* pn, int sizeV, int* entradaV) {
 	double n = 0;
 
 	for (i = 0; i < sizeV i++) {
-		n += *(entradaV + i)*pn->W[i];
+		n += entradaV[i]*pn->W[i];
 
 	}
 	n += pn->b;
 	return n;
+}
+double MSE (double* erros) {
+
+	int i;
+	double sum = 0;
+
+
+	for (i = 0; i < 50 i++) {
+
+		sum += pow(erros[i],2);
+	}
+	sum /= 50.0f;
+
+	return sum;
 }
 
 
