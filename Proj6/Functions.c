@@ -1,7 +1,7 @@
 #define true 1
 #define false 0
 
-void lerDoArquivo(double **M, char modo) {
+void lerDoArquivo(double *M, char modo) {
 
 	FILE *arq;
 	if(modo == 'A') {
@@ -17,9 +17,9 @@ void lerDoArquivo(double **M, char modo) {
 	}
 
 	while(arq != EOF) {
-		for(i = 0; i < 536; i++) {
-			for(j = 0; j < 50; j++) {
-				fscanf("%lf ", M[i][j]);
+		for(i = 0; i < 50; i++) {
+			for(j = 0; j < 536; j++) {
+				fscanf("%lf ", *(M+i*536+j));
 			}
 		}
 	}
@@ -29,19 +29,20 @@ void alocaVetorEntradas(double *p, int tam) {
 	p = (double *) calloc(tam, sizeof(double));
 }
 
-void randomGenerationArchives(double *V, double **M, int *vetorRecorrencia, int tam) {
+void randomGenerationArchives(double *V, double *M, int *recurrence) {
 
+	//tam referente ao numero de colunas
 	int i, linha;
 	linha = rand()%50;
 
-	while(vetorRecorrencia[linha] == true) {
+	while(recurrence[linha] == true) {
 		linha = rand()%50;
 	}
 
-	vetorRecorrencia[linha] = true;
+	recurrence[linha] = true;
 
-	for(i = 0; i < tam; i++) {
-		V[i] = M[i][linha];
+	for(i = 0; i < 536; i++) {
+		V[i] = *(M+linha*536+i);
 	}
 }
 

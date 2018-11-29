@@ -2,7 +2,7 @@
 #include <math.h>
 
 
-double funcaouncaoLogistica (double n) {
+double activationFunction (double n) {
 
 	double funcao;
 
@@ -10,32 +10,33 @@ double funcaouncaoLogistica (double n) {
 	return funcao;
 
 }
-double derivadaDafuncaouncaoLogistica (double n) {
+double dxActivationFunction (double n) {
 
- 	double funcaoDerivada;
-	funcaoDerivada = (exp(-n))/pow((1+exp(-n)),2);
+ 	double dx;
+	dx = (exp(-n))/pow((1+exp(-n)),2);
 
-	return funcaoDerivada;
+	return dx;
 }
-double valorIntermediario (NEURONIO* pn, int sizeV, int* entradaV) {
+double intermadiateValue (NEURONIO* pn, double* inputP, int sizeV) {
 
 	int i;
 	double n = 0;
 
 	for (i = 0; i < sizeV i++) {
-		n += entradaV[i]*pn->W[i];
+		n += inputP[i]*pn->W[i];
 
 	}
 	n += pn->b;
 	return n;
 }
+
 double MSE (double* erros) {
 
 	int i;
 	double sum = 0;
 
 
-	for (i = 0; i < 50 i++) {
+	for (i = 0; i < 50; i++) {
 
 		sum += pow(erros[i],2);
 	}
@@ -50,8 +51,8 @@ int main () {
 	double n;
 	printf("Digite o n: \n");
 	scanf("%lf",&n);
-	double funcao = funcaouncaoLogistica(n);
-	double funcaoDerivada = derivadaDafuncaouncaoLogistica(n);
+	double funcao = activationFunction(n);
+	double funcaoDerivada = dxActivationFunction(n);
 
 	printf("Valor de funcao: %.4lf\n", funcao );
 	printf("Valor da derivada da funcao: %.2lf\n", funcaoDerivada );
