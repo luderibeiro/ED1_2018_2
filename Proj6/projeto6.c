@@ -6,14 +6,14 @@ double activationFunction (double n) {
 
 	double funcao;
 
-	funcao = (1/(1+exp(-n)));
+	funcao = (1/(1-exp(-n)));
 	return funcao;
 
 }
 double dxActivationFunction (double n) {
 
  	double dx;
-	dx = (exp(-n))/pow((1+exp(-n)),2);
+	dx = (-1.0f)*(exp(-n))/pow((1-exp(-n)),2);
 
 	return dx;
 }

@@ -1,7 +1,7 @@
 #define true 1
 #define false 0
 
-void lerDoArquivo(double *M, char modo) {
+void readFromFile(double *M, char modo) {
 
 	FILE *arq;
 	if(modo == 'A') {
@@ -54,6 +54,7 @@ double funcaouncaoLogistica (double n) {
 	return funcao;
 
 }
+
 double derivadaDafuncaouncaoLogistica (double n) {
 
 	double funcaoDerivada;
@@ -75,4 +76,17 @@ int main () {
 
 
 	return 0;
+}
+
+NEURONIO* alocaNeuronios(int sizeLayer){
+
+	NEURONIO *nr;
+	nr = (NEURONIO *) malloc(sizeof(NEURONIO)*sizeLayer);
+	return nr;
+
+}
+
+double* allocateW(int sizeW){
+	double* tempW = (double*) malloc(sizeof(double)*sizeW);
+	return tempW;
 }
