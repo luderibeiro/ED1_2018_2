@@ -3,69 +3,118 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <time.h>
 
-int** alocarMatriz(int lines, int columns) {
+char nomeArquivo[95] = "/home/luderibeiro/Documentos/2019.1/ED1/ED1_2018_2/Proj2/DataSet/";
 
-    int i,j;
-    int **m = (int**)malloc(lines * sizeof(int*));
-    for (i = 0; i < lines; i++) {
-        m[i] = (int*) malloc(columns * sizeof(int));
-        for (j = 0; j < columns; j++) {
-            m[i][j] = 0;
-        }
+int** alocarMatriz(int Linhas,int Colunas){
+
+  int i;
+  int **m = (int**) calloc(Linhas, sizeof(int*));
+  for (i = 0; i < Linhas; i++){
+       m[i] = (int*) calloc(Colunas, sizeof(int));
+  }
+return m; //Retorna o Ponteiro para a Matriz Alocada
+}
+
+void liberaMatriz (int l, int n, int **m)
+{
+    int  i;  /* variavel auxiliar */
+    if (m == NULL)
+        exit(-1);
+    if (l < 1 || n < 1) {  /* verifica parametros recebidos */
+        printf ("** Erro: Parametro invalido **\n");
     }
-    return m;
+    for (i=0; i<l; i++) free (m[i]); /* libera as linhas da matriz */
+    free (m);      /* libera a matriz (vetor de ponteiros) */
+}
+
+int binToDec(int *vetorBinario){ //pegar o valor em decimal baseado no binario concatenado
+    int somatorio = 0, i;
+    for(i = 0; i < 9; i++) {
+        somatorio += vetorBinario[i] * pow(2, 9-i);
+    }
+    // printf("somatorio %d\n", somatorio);
+    //printf("%d\n", somatorio);
+    // getc(stdin);
+    return somatorio;
 }
 
 int rotacaoBinaria(char *binario) {
-    int i, j, valor, menor;
-    char troca;
-    menor = atoi(binario);
+    int i, j, valor, menor, troca[9] = {}, aux[9] = {};
+
+    //transformando de string para inteiro
+    for(i = 9; i > 0; i--) {
+        aux[i] = atoi(&binario[i]);
+        binario[i] = '\0';
+        printf("%d\n", aux[i]);
+    }
+    valor = binToDec(troca);
     for(i = 0; i < 8; i++) {
-        troca = binario[9];
-        for(j = 9; j >= 0; j--) {
-            binario[j] = binario[j-1];
+        troca[0] = aux[9];
+        for(j = 1; j < 10; i++) {
+            troca[i] = aux[i-1];
         }
-        binario[0] = troca;
-        valor = atoi(binToDec(binario));
-        if(valor<menor)
-            menor = valor;
     }
     return menor;
 }
-
-void ILBP(int **matrizArquivo) {
+//Implementando o ILBP
+void ILBP(int **matrizArquivo, int *vetorRecorrencia) {
     int i, j, k, l, valorMenor;
     for(i = 1; i < 1024; i++) {
         for(j = 1; j < 1024; j++) {
-            float mediaVizinhanca = 0.0;
+            float mediaVizinhanca = 0;
             for(k = i-1; k <= i+1; k++) { //looping responsável por guardar a soma dos vizinhos
                 for(l = j-1; l <= j+1; l++) {
                     mediaVizinhanca += matrizArquivo[k][l];
+                    //printf("%f\n", mediaVizinhanca);
                 }
             }
-            char binario[9] = {};
+
             mediaVizinhanca /= 9;
+            //printf("%f\n", mediaVizinhanca);
+
+            char *binario = calloc(9, sizeof(char));
             for(k = i-1; k <= i+1; k++) { //looping responsável por guardar o binário
                 for(l = j-1; l <= j+1; l++) {
                     if(matrizArquivo[k][l] > mediaVizinhanca)
-                        strcat(binario, '1');
+                        strcat(binario, "1");
                     else
-                        strcat(binario, '0');
+                        strcat(binario, "0");
                 }
             }
+            printf("%s\n", binario);
+            //printf("%s\n", binario);
             valorMenor = rotacaoBinaria(binario);
+            vetorRecorrencia[valorMenor]++;
+            free(binario);
         }
     }
 
 }
-//////////////////////////////////////////////////// MAIN //////////////////////////////////////////////////////////////
-
-int main(){
-
-    char nomeArquivo[80] = "/home/luderibeiro/Documentos/2019.1/ED1/ED1_2018_2/Proj2/DataSet/";
+//Implementando o GLCM
+// void GLCM(int **matrizArquivo, int ***matrizGLCM) {
+//     int i, j, k, l;
+//     for(i = 0; i < 8; i++) {
+//         for(j = 0; j < 256; j++) {
+//             for(k = i-1; k <= i+1; k++) { //looping responsável por guardar a soma dos vizinhos
+//                 for(l = j-1; l <= j+1; l++) {
+//                     // matrizGLCM[]
+//                 }
+//             }
+//         }
+//     }
+// }
+//***********************************************************************************************************************************//
+//******************************************************MAIN*************************************************************************//
+//***********************************************************************************************************************************//
+int main() {
+    srand(time(NULL));
     FILE *arq;
-
+    int **vetorRecorrencia = NULL, **matrizArquivo = NULL, ***matrizGLCM;
+    int recorrenciaImagensAsphalt[50] = {}, recorrenciaImagensGrass[50] = {};
+    int i, j, aux, imagemAsphalt, imagemGrass, asphalt;
+    char lixo = 'a';
     char asphaltFile[50][15] = {"asphalt_01.txt", "asphalt_02.txt", "asphalt_03.txt", "asphalt_04.txt", "asphalt_05.txt",
                                 "asphalt_06.txt", "asphalt_07.txt", "asphalt_08.txt", "asphalt_09.txt", "asphalt_10.txt",
                                 "asphalt_11.txt", "asphalt_12.txt", "asphalt_13.txt", "asphalt_14.txt", "asphalt_15.txt",
@@ -87,30 +136,64 @@ int main(){
                               "grass_41.txt", "grass_42.txt", "grass_43.txt", "grass_44.txt", "grass_45.txt",
                               "grass_46.txt", "grass_47.txt", "grass_48.txt", "grass_49.txt", "grass_50.txt"};
 
-    int **matrizArquivo = alocarMatriz(1025, 1025);
-    printf("Teste\n");
-    strcat(nomeArquivo, asphaltFile[5]);
-    matrizArquivo = fopen(nomeArquivo,"r");
-    //passando valores para matriz
-    for(int i=0;i<1025;++i){
-        for(int j=0;j<1025;++j){
-            fscanf(arq,"%d%*c",&matrizArquivo[i][j]);
+    //Looping para conjunto de treinamento
+    for(aux = 0; aux < 50; aux++) {
+        matrizArquivo = alocarMatriz(1025, 1025);
+        vetorRecorrencia = alocarMatriz(50, 536);
+        if(asphalt == 0){
+            strcat(nomeArquivo, "asphalt/");
+            imagemAsphalt = rand()%50;
+            if (recorrenciaImagensAsphalt[imagemAsphalt] == 1) {
+                while(recorrenciaImagensAsphalt[imagemAsphalt] == 1) { //Looping para evitar a repetição de imagem
+                    imagemAsphalt = rand()%50;
+                }
+            }
+            strcat(nomeArquivo, asphaltFile[imagemAsphalt]);
         }
+        else{
+            strcat(nomeArquivo, "grass/");
+            imagemGrass = rand()%50;
+            if(recorrenciaImagensGrass[imagemGrass] == 1) {
+                while(recorrenciaImagensGrass[imagemGrass] == 1) {  //Looping para evitar a repetição de imagem
+                    imagemGrass = rand()%50;
+                }
+            }
+            strcat(nomeArquivo, grassFile[imagemGrass]);
+        }
+        arq = fopen(nomeArquivo, "r");
+        //printf("%s\n", nomeArquivo);
+        for(i = 0; i < 1025; ++i) {
+            for(j = 0; j < 1025; j++) {
+                fscanf(arq, "%d%c", &matrizArquivo[i][j], &lixo);
+                //printf("%d ", matrizArquivo[i][j]);
+            }
+        }
+        fclose(arq);
+        ILBP(matrizArquivo, vetorRecorrencia[0]);
+        //Alocando livro de resultados GLCM  // AINDA TEM QUE DAR FREE!!!!!!!!!!!!!!
+        matrizGLCM = (int***) calloc(8, sizeof(int**));
+        for(i = 0; i < 8; i++) {
+            matrizGLCM[i] = (int**) calloc(256, sizeof(int*));
+            for (j = 0; j < 256; j++){
+                matrizGLCM[i][j] = (int*) calloc(256, sizeof(int));
+            }
+        }
+        //GLCM(matrizArquivo, matrizGLCM);
+        liberaMatriz(1025, 1025, matrizArquivo);
+        nomeArquivo[66] = '\0'; //Para deixar a string limpa para poder trocar de pasta e arquivo depois
+        if(asphalt == 0)
+            asphalt = 1;
+        else
+            asphalt = 0;
     }
-    fclose(arq);
 
     return 0;
 }
 
-int binToDec(char *bin){
-    int somatorio = 0;
-    int x = 8;
-    for(int i = 0; i < 9 ;i++){
-
-        if(bin[i] == 49){ // como jogo um binario no formato char comparando com um inteiro tive que compara com 48  => "0"
-            somatorio += pow(2, x);                                                                           //49 => "1"
-        }
-        x--;
-    }
-    return somatorio;
-}
+// for (i = 0; i < 1025; i++) {
+//     for (j = 0; j < 1025; j++) {
+//         printf("%d ", matrizArquivo[i][j]);
+//     }
+//     printf("\n");
+// }
+//getc(stdin);
