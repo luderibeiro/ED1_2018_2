@@ -39,7 +39,7 @@ char listaCodigos[64][7] = {"VG3001\0", "JJ4404\0", "LN7001\0", "TG1501\0", "GL7
 
 int inicio, final;
 
-void preencheFila(int numeroVoos, int numeroAproximacoes, int numeroDecolagens, Voos *voo){
+void preencheFila(int numeroVoos, int numeroDeAproximacoes, int numeroDecolagens, Voos *voo){
 
 	inicio = 0;
 	final = 0;
@@ -58,14 +58,14 @@ void preencheFila(int numeroVoos, int numeroAproximacoes, int numeroDecolagens, 
 		strcpy(voo[i].codigo, listaCodigos[i]);
 		final++;
 	}
-	for(i = 0; i < numeroAproximacoes; i++){
+	for(i = 0; i < numeroDeAproximacoes; i++){
 
 		voo[i].modoVoo = 'A';
 		voo[i].combustivel = rand()%13; // Gerando valores aleatórios de combustivel de 0 a 12 para o modo de voo "A".
 
 	}
 
-	for(i = numeroAproximacoes; i < numeroVoos; i++){
+	for(i = numeroDeAproximacoes; i < numeroVoos; i++){
 
 		voo[i].modoVoo = 'D';
 		voo[i].combustivel = 12; //Fixando o valor de combustível igual a 12 para o modo de voo "D".
@@ -297,11 +297,11 @@ int main(int argc, char const *argv[]) {
 	Voos *aux, *anterior;
 	srand(time(NULL));
 	int numeroVoos, voosAtendidos = 0;
-	int numeroAproximacoes = rand() %(LIMITE-41) + 10;
+	int numeroDeAproximacoes = rand() %(LIMITE-41) + 10;
 	int numeroDecolagens = rand() %(LIMITE-41) + 10;
-	numeroVoos = numeroAproximacoes + numeroDecolagens;
+	numeroVoos = numeroDeAproximacoes + numeroDecolagens;
 	printf("Numero de voos: %d\n", numeroVoos);
-	preencheFila(numeroVoos, numeroAproximacoes, numeroDecolagens, voo);
+	preencheFila(numeroVoos, numeroDeAproximacoes, numeroDecolagens, voo);
 	//baguncinha(voo, numeroVoos);
 	//printaFila(numeroVoos, voo);
 	ordenaFila(numeroVoos, voo);
@@ -322,7 +322,7 @@ int main(int argc, char const *argv[]) {
 	}
 	//Printando os eventos.
 	printf("NVoos: %d\n", numeroVoos);
-	printf("NAproximacoes: %d\n", numeroAproximacoes);
+	printf("NAproximacoes: %d\n", numeroDeAproximacoes);
 	printf("NDecolagens: %d\n", numeroDecolagens);
 	printf("\n---------------------------------------------------------\n");
 	printf("Listagem de Eventos: \n");
